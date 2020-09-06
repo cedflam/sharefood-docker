@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row no-gutter">
+            <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+            <div class="col-md-8 col-lg-6">
+                <div class="login d-flex align-items-center py-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-9 col-lg-8 mx-auto">
+                                <h3 class="login-heading mb-4">Heureux de vous revoir !</h3>
+
+                                <form method="post">
+                                    {% if error %}
+                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                    {% endif %}
+
+                                    {% if app.user %}
+                                        <div class="mb-3">
+                                            You are logged in as {{ app.user.username }}, <a
+                                                    href="{{ path('app_logout') }}">Déconnexion</a>
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-label-group">
+                                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                                               class="form-control" required autofocus>
+                                    </div>
+
+                                    <div class="form-label-group">
+                                        <input type="password" name="password" id="inputPassword" class="form-control"
+                                               required>
+                                    </div>
+                                    <input type="hidden" name="_csrf_token"
+                                           value="{{ csrf_token('authenticate') }}"
+                                    >
+
+                                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
+                                            type="submit">Connexion
+                                    </button>
+                                    <div class="text-center">
+                                        <a class="small" href="#">Mot de passe oublié ?</a></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
