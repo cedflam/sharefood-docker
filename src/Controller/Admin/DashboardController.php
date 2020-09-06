@@ -28,7 +28,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Sharefood');
+            ->setTitle('ShareFood');
     }
 
     /**
@@ -42,6 +42,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linktoDashboard('Dashboard', 'fa fa-home'),
             MenuItem::linkToCrud('Articles', 'fa fa-tags', Article::class),
             MenuItem::linkToCrud('Users', 'fa fa-users', User::class),
+
 
         ];
         //yield MenuItem::section('Articles');
