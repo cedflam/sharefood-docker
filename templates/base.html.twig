@@ -8,6 +8,8 @@
     <meta name="author" content="">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+          integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <title>{% block title %}Welcome!{% endblock %}</title>
     {% block stylesheets %}{% endblock %}
 </head>
@@ -38,18 +40,17 @@
 
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Produits</a>
+                        <a class="nav-link" href="{{ path('articles') }}">Produits</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Partager</a>
+                        <a class="nav-link" href="{{ path('article_add') }}">Partager</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
-                    {% dump(app.user.roles[0]) %}
                     {% if app.user.roles[0] == "ROLE_ADMIN" %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{path('admin')}}">Admin</a>
+                            <a class="nav-link" href="{{ path('admin') }}">Admin</a>
                         </li>
                     {% endif %}
 

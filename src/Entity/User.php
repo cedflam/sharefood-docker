@@ -49,7 +49,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
+    private $userName;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -71,8 +71,10 @@ class User implements UserInterface
         $this->articles = new ArrayCollection();
     }
 
-
-
+    public function __toString()
+    {
+        return $this->getId().' '.$this->getUserName();
+    }
 
 
     public function getId(): ?int
@@ -97,7 +99,7 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public function getUserName(): string
     {
         return (string) $this->email;
     }
@@ -177,9 +179,9 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setUsername(string $username): self
+    public function setUserName(string $userName): self
     {
-        $this->username = $username;
+        $this->userName = $userName;
 
         return $this;
     }

@@ -3,10 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ *
  */
 class Article
 {
@@ -29,18 +34,15 @@ class Article
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThanOrEqual("today", message="La date de péremption ne peut être inférieur à la date du jour")
      */
     private $expiratedAt;
 
     /**
      * @ORM\Column(type="datetime")
+     *
      */
     private $createdAt;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $available;
 
     /**
      * @ORM\Column(type="boolean")
@@ -49,6 +51,7 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      */
     private $image;
 
@@ -58,6 +61,28 @@ class Article
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $location;
+
+    /**
+     * Permet d'initialiser le slug
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function initSlug()
+    {
+        if (empty($this->slug)){
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->description);
+        }
+    }
 
     public function getId(): ?int
     {
@@ -101,6 +126,15 @@ class Article
         return $this;
     }
 
+    /**
+     * @throws Exception
+     * @ORM\PrePersist()
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -109,18 +143,6 @@ class Article
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getAvailable(): ?bool
-    {
-        return $this->available;
-    }
-
-    public function setAvailable(bool $available): self
-    {
-        $this->available = $available;
 
         return $this;
     }
@@ -157,6 +179,30 @@ class Article
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(string $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }

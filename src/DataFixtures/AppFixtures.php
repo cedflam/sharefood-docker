@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Article;
 use App\Entity\User;
+use Cocur\Slugify\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -28,6 +29,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
+        $slugify = new Slugify();
 
         $condition = [true, false];
         $products = ['pommes', 'conserves', 'carottes', 'petits pois', 'pain de mie', 'jambon', 'fromage', 'lait', 'eau', 'sucre'];
@@ -40,16 +42,17 @@ class AppFixtures extends Fixture
                 ->setRoles(['ROLE_USER'])
                 ->setFirstName($faker->firstName)
                 ->setLastName($faker->lastName)
-                ->setUsername($faker->userName)
+                ->setUserName($faker->userName)
                 ->setPhone($faker->e164PhoneNumber)
                 ->setBalance($faker->randomElement($condition));
+
             for ($j = 0; $j < 10; $j++) {
                 $article = new Article();
                 $article->setProductName($faker->randomElement($products))
                         ->setDescription($faker->sentence(20))
                         ->setExpiratedAt($faker->dateTimeBetween('-30days', 'now'))
                         ->setCreatedAt(new \DateTime())
-                        ->setAvailable($faker->randomElement($condition))
+                        ->setLocation($faker->city)
                         ->setDonation($faker->randomElement($condition))
                         ->setUser($user);
                 $manager->persist($article);

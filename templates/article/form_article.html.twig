@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} ShareFood - Ajouter/Modifier Produit {% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid product-add " style="padding-top: 150px; padding-bottom: 300px;">
+        <div class="container text-white filter-dark p-5 ">
+            <h2 class="mb-3">Complétez le formulaire ci-dessous...</h2>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input class="btn btn-primary" type="submit" value="Enregistrer">
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/app/imageBrowser.js') }}"></script>
+{% endblock %}

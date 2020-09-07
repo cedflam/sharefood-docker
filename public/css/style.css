@@ -9,6 +9,26 @@
     background-size: cover;
 }
 
+/*PRODUCTS*/
+.products{
+    background-image: url('../img/bgArticleAdd.jpg');
+    background-attachment: fixed;
+    background-repeat: repeat;
+}
+
+.product-add{
+    background-image: url('../img/bgArticleAdd.jpg');
+    background-attachment: fixed;
+    background-repeat: repeat;
+
+}
+
+.filter-dark{
+    background-color: black;
+    opacity: 0.8;
+}
+
+
 /*FORM LOGIN*/
 :root {
     --input-padding-x: 1.5rem;
