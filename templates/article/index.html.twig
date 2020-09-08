@@ -12,7 +12,7 @@
                     <div class="alert alert-{{ label }} ">
                         {% for message in messages %}
                             <p>
-                                {{message | raw}}
+                                {{ message | raw }}
                             </p>
                         {% endfor %}
                     </div>
@@ -24,20 +24,23 @@
                     {% if date(article.expiratedAt) > date() %}
                         <div class="col-lg-4 col-sm-6 mb-4">
 
-                            <div class="card h-100">
+                            <div class="card h-100" style="opacity: 0.9;">
                                 <a href="#"><img class="card-img-top" src="uploads/images/{{ article.image }}"
                                                  alt=""></a>
                                 <div class="card-body">
                                     <h4 class="card-title">
                                         <a href="#" class="badge badge-primary">{{ article.productName }}</a>
-                                        <a class="badge badge-danger ml-1 float-right"
-                                           href="{{ path('article_delete', {'id': article.id}) }}"><i
-                                                    class="fas fa-trash"></i></a>
-                                        <a class="badge badge-warning float-right"
-                                           href="{{ path('article_edit', {'id': article.id}) }}"> <i
-                                                    class="fas fa-pen"></i></a>
+                                        {% if app.user == article.user %}
+                                            <a class="badge badge-danger ml-1 float-right"
+                                               href="{{ path('article_delete', {'id': article.id}) }}"><i
+                                                        class="fas fa-trash"></i></a>
+                                            <a class="badge badge-warning float-right"
+                                               href="{{ path('article_edit', {'id': article.id}) }}"> <i
+                                                        class="fas fa-pen"></i></a>
+                                        {% endif %}
                                         <p class="text-sm-left">
-                                        <h6>Par, {{ article.user.firstName }} de {{ article.location }}</h6>{#TODO: FirstName plus petit#}
+                                        <h6>Par, {{ article.user.firstName }}
+                                            de {{ article.location }}</h6>{#TODO: FirstName plus petit#}
                                         </p>
                                         <p>
                                         <h6>Date de péremption

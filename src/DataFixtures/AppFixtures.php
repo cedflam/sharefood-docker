@@ -50,9 +50,11 @@ class AppFixtures extends Fixture
                 $article = new Article();
                 $article->setProductName($faker->randomElement($products))
                         ->setDescription($faker->sentence(20))
-                        ->setExpiratedAt($faker->dateTimeBetween('-30days', 'now'))
+                        ->setExpiratedAt($faker->dateTimeBetween('-30days', '+15days'))
+                        ->setImage('http://www.placehold.it/700X400')
                         ->setCreatedAt(new \DateTime())
                         ->setLocation($faker->city)
+                        ->setAvailable(true)
                         ->setDonation($faker->randomElement($condition))
                         ->setUser($user);
                 $manager->persist($article);

@@ -72,6 +72,11 @@ class Article
     private $location;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $available;
+
+    /**
      * Permet d'initialiser le slug
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
@@ -203,6 +208,31 @@ class Article
     public function setLocation(string $location): self
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * Permet de rendre disponible un produit à sa création
+     *
+     * @ORM\PrePersist()
+     * @return void
+     */
+    public function setAvailableValue()
+    {
+        if ($this->available === null){
+            $this->available = true;
+        }
+    }
+
+    public function getAvailable(): ?bool
+    {
+        return $this->available;
+    }
+
+    public function setAvailable(bool $available): self
+    {
+        $this->available = $available;
 
         return $this;
     }
