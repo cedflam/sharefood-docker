@@ -6,7 +6,9 @@ use App\Repository\ArticleRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
@@ -15,6 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Article
 {
+
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -76,6 +81,24 @@ class Article
      */
     private $available;
 
+    private $path;
+
+    /**
+     * @return mixed
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param mixed $path
+     */
+    public function setPath($path): void
+    {
+        $this->path = $path;
+    }
+
     /**
      * Permet d'initialiser le slug
      * @ORM\PrePersist()
@@ -83,7 +106,7 @@ class Article
      */
     public function initSlug()
     {
-        if (empty($this->slug)){
+        if (empty($this->slug)) {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->description);
         }
@@ -220,7 +243,7 @@ class Article
      */
     public function setAvailableValue()
     {
-        if ($this->available === null){
+        if ($this->available === null) {
             $this->available = true;
         }
     }
