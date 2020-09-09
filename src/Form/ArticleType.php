@@ -32,10 +32,6 @@ class ArticleType extends AbstractType
                 'label' => "Date de péremption du produit",
                 'widget' => "single_text"
             ])
-            ->add('donation', CheckboxType::class, [
-                'label' => "Souhaitez mettre ce produit en don ?",
-                'required' => false
-            ])
             ->add('image', FileType::class, [
                 'label' => "Ajouter/Modifier une image du produit",
                 'mapped' => false,

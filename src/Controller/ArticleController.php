@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\MessageRepository;
 use App\Services\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -49,12 +50,14 @@ class ArticleController extends AbstractController
      *
      * @Route("/articles/{id}/contact", name="article_contact")
      * @param Article $article
+     * @param MessageRepository $messageRepository
      * @return Response
      */
-    public function showArticle(Article $article)
+    public function showArticle(Article $article, MessageRepository $messageRepository)
     {
         return $this->render('article/contact_article.html.twig',[
-            'article' => $article
+            'article' => $article,
+            'messages' => $messageRepository->findBy([], ['createdAt' => 'DESC'])
         ]);
     }
 
