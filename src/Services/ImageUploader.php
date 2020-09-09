@@ -17,7 +17,7 @@ class ImageUploader
         $this->targetDirectory = $targetDirectory;
     }
 
-    public function upload(UploadedFile $file, $filename)
+    public function upload(UploadedFile $file)
     {
         //Suppression de l'ancienne image
         $fileName = uniqid().'.'.$file->guessExtension();

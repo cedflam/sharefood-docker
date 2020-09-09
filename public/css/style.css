@@ -28,6 +28,13 @@
     opacity: 0.8;
 }
 
+/*PRODUCTS*/
+.product-contact{
+    background-image: url('../img/userContact.jpg');
+    background-attachment: fixed;
+    background-repeat: repeat;
+}
+
 
 /*FORM LOGIN*/
 :root {
@@ -142,3 +149,6 @@
         color: #777;
     }
 }
+
+
+

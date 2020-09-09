@@ -22,37 +22,37 @@
             <div class="row">
                 {% for article in articles %}
                     {% if date(article.expiratedAt) > date() %}
-                        <div class="col-lg-4 col-sm-6 mb-4">
+                        <div class="container ">
+                            <div class="card mb-3 mx-auto d-block" style="max-width: 700px;">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                        <img src="{{ asset('uploads/images/' ~ article.image) }}" class="card-img"
+                                             alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ article.productName }}</h5>
+                                            <p class="card-text">{{ article.description }}</p>
+                                            <p class="card-text"><small class="text-muted">Date d'expiration
+                                                    : {{ article.expiratedAt | date('d/m/Y') }}</small></p>
+                                        </div>
+                                    </div>
 
-                            <div class="card h-100" style="opacity: 0.9;">
-                                <a href="#"><img class="card-img-top" src="uploads/images/{{ article.image }}"
-                                                 alt=""></a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="#" class="badge badge-primary">{{ article.productName }}</a>
-                                        {% if app.user == article.user %}
-                                            <a class="badge badge-danger ml-1 float-right"
-                                               href="{{ path('article_delete', {'id': article.id}) }}"><i
-                                                        class="fas fa-trash"></i></a>
-                                            <a class="badge badge-warning float-right"
-                                               href="{{ path('article_edit', {'id': article.id}) }}"> <i
-                                                        class="fas fa-pen"></i></a>
+                                    <div class="card-footer">
+                                        {% if app.user is not defined %}
+                                            <p>Inscrivez-vous !</p>
                                         {% endif %}
-                                        <p class="text-sm-left">
-                                        <h6>Par, {{ article.user.firstName }}
-                                            de {{ article.location }}</h6>{#TODO: FirstName plus petit#}
-                                        </p>
-                                        <p>
-                                        <h6>Date de péremption
-                                            : {{ article.expiratedAt | date('d/m/Y', "Europe/Paris") }}</h6>
-                                        </p>
+                                        <a href="{{ path('article_contact', {'id': article.id}) }}" class="btn btn-primary">Contacter le Food Sharer</a>
+                                        {% if app.user.id == article.user.id %}
+                                            <a href="{{ path('article_edit', {'id': article.id}) }}"
+                                               class="btn btn-primary">Modifier</a>
+                                            <a href="{{ path('article_delete', {'id': article.id}) }}"
+                                               class="btn btn-primary">Supprimer</a>
+                                        {% endif %}
+                                    </div>
 
-                                    </h4>
-                                    <p class="card-text">{{ article.description }}</p>
                                 </div>
-
                             </div>
-
                         </div>
                     {% endif %}
                 {% endfor %}

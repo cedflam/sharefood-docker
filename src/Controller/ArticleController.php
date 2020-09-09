@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\File\File;
 
 class ArticleController extends AbstractController
 {
@@ -41,7 +40,21 @@ class ArticleController extends AbstractController
     public function index(ArticleRepository $articleRepository)
     {
         return $this->render('article/index.html.twig', [
-            "articles" => $articleRepository->findBy([], ['createdAt' => 'DESC']),
+            "articles" => $articleRepository->findBy([], ['expiratedAt' => 'ASC']),
+        ]);
+    }
+
+    /**
+     * Permet d'afficher le détail d'un article et d'effectuer une réservation
+     *
+     * @Route("/articles/{id}/contact", name="article_contact")
+     * @param Article $article
+     * @return Response
+     */
+    public function showArticle(Article $article)
+    {
+        return $this->render('article/contact_article.html.twig',[
+            'article' => $article
         ]);
     }
 
@@ -71,9 +84,10 @@ class ArticleController extends AbstractController
             if ($imageFile){
                 $imageFileName = $imageUploader->upload($imageFile);
                 $article->setImage($imageFileName);
+            }else{
+                $article->setImage('productDefault.jpg');
             }
             /******************/
-
 
             /*Persistance*/
             $this->manager->persist($article);
@@ -88,8 +102,6 @@ class ArticleController extends AbstractController
         return $this->render('article/form_article.html.twig', [
             'form' => $form->createView(),
         ]);
-
-
     }
 
     /**
@@ -108,11 +120,11 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /*****Upload******/
+            /*****Upload******TODO: Redimenssionner une image */
+
             $imageFile = $form->get('image')->getData();
 
             if ($imageFile){
-
                 //Suppression de l'ancienne image
                 $filename = $article->getImage();
                 $fileSystem = new Filesystem();
@@ -120,7 +132,7 @@ class ArticleController extends AbstractController
                 $fileSystem->remove($path . '/public/uploads/images/' . $filename);
 
                 //Enregistrementde la nouvelle
-                $imageFileName = $imageUploader->upload($imageFile, $filename);
+                $imageFileName = $imageUploader->upload($imageFile);
                 $article->setImage($imageFileName);
             }
             /******************/

@@ -37,7 +37,7 @@ class ArticleType extends AbstractType
                 'required' => false
             ])
             ->add('image', FileType::class, [
-                'label' => "Ajouter une image du produit",
+                'label' => "Ajouter/Modifier une image du produit",
                 'mapped' => false,
                 'required' => false,
             ])

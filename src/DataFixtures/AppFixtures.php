@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\Message;
 use App\Entity\User;
 use Cocur\Slugify\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -42,21 +43,30 @@ class AppFixtures extends Fixture
                 ->setRoles(['ROLE_USER'])
                 ->setFirstName($faker->firstName)
                 ->setLastName($faker->lastName)
-                ->setUserName($faker->userName)
                 ->setPhone($faker->e164PhoneNumber)
-                ->setBalance($faker->randomElement($condition));
+                ;
+
 
             for ($j = 0; $j < 10; $j++) {
                 $article = new Article();
                 $article->setProductName($faker->randomElement($products))
                         ->setDescription($faker->sentence(20))
                         ->setExpiratedAt($faker->dateTimeBetween('-30days', '+15days'))
-                        ->setImage('http://www.placehold.it/700X400')
+                        ->setImage('productDefault.jpg')
                         ->setCreatedAt(new \DateTime())
                         ->setLocation($faker->city)
                         ->setAvailable(true)
-                        ->setDonation($faker->randomElement($condition))
                         ->setUser($user);
+
+                for ($k = 0; $k < 10; $k++){
+                    $message = new Message();
+                    $message->setSubject($faker->sentence(3))
+                            ->setMessage($faker->sentence(15))
+                            ->setArticle($article)
+                    ;
+                    $manager->persist($message);
+                }
+
                 $manager->persist($article);
             }
             $manager->persist($user);

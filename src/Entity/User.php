@@ -46,20 +46,12 @@ class User implements UserInterface
      */
     private $lastName;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $userName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $phone;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $balance;
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user", orphanRemoval=true)
@@ -99,7 +91,7 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUserName(): string
+    public function getUsername(): string
     {
         return (string) $this->email;
     }
@@ -179,12 +171,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setUserName(string $userName): self
-    {
-        $this->userName = $userName;
 
-        return $this;
-    }
 
     public function getPhone(): ?string
     {
@@ -198,17 +185,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getBalance(): ?int
-    {
-        return $this->balance;
-    }
-
-    public function setBalance(int $balance): self
-    {
-        $this->balance = $balance;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Article[]

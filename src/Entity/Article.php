@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -17,8 +19,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Article
 {
-
-
 
     /**
      * @ORM\Id
@@ -49,10 +49,6 @@ class Article
      */
     private $createdAt;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $donation;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -82,6 +78,16 @@ class Article
     private $available;
 
     private $path;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="article")
+     */
+    private $messages;
+
+    public function __construct()
+    {
+        $this->messages = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -175,17 +181,7 @@ class Article
         return $this;
     }
 
-    public function getDonation(): ?bool
-    {
-        return $this->donation;
-    }
 
-    public function setDonation(bool $donation): self
-    {
-        $this->donation = $donation;
-
-        return $this;
-    }
 
     public function getImage(): ?string
     {
@@ -256,6 +252,37 @@ class Article
     public function setAvailable(bool $available): self
     {
         $this->available = $available;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getArticle() === $this) {
+                $message->setArticle(null);
+            }
+        }
 
         return $this;
     }
