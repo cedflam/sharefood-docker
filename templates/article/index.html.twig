@@ -46,7 +46,7 @@
                                             <p>Inscrivez-vous !</p>
                                         {% endif %}
                                         {% if app.user.id != article.user.id %}
-                                            <a href="{{ path('article_contact', {'id': article.id}) }}"
+                                            <a href="{{ path('message_product', {'id': article.id}) }}"
                                                class="btn btn-primary">Contacter {{ article.user.firstName }}</a>
                                         {% endif %}
                                         {% if app.user.id == article.user.id %}

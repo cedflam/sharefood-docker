@@ -45,21 +45,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    /**
-     * Permet d'afficher le détail d'un article et d'effectuer une réservation
-     *
-     * @Route("/articles/{id}/contact", name="article_contact")
-     * @param Article $article
-     * @param MessageRepository $messageRepository
-     * @return Response
-     */
-    public function showArticle(Article $article, MessageRepository $messageRepository)
-    {
-        return $this->render('article/contact_article.html.twig',[
-            'article' => $article,
-            'messages' => $messageRepository->findBy([], ['createdAt' => 'DESC'])
-        ]);
-    }
+
 
     /**
      * Permet d'ajouter un nouveau produit
