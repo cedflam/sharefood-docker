@@ -84,9 +84,15 @@ class Article
      */
     private $messages;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Discussion::class, mappedBy="article")
+     */
+    private $discussions;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
+        $this->discussions = new ArrayCollection();
     }
 
     /**
@@ -281,6 +287,37 @@ class Article
             // set the owning side to null (unless already changed)
             if ($message->getArticle() === $this) {
                 $message->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Discussion[]
+     */
+    public function getDiscussions(): Collection
+    {
+        return $this->discussions;
+    }
+
+    public function addDiscussion(Discussion $discussion): self
+    {
+        if (!$this->discussions->contains($discussion)) {
+            $this->discussions[] = $discussion;
+            $discussion->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscussion(Discussion $discussion): self
+    {
+        if ($this->discussions->contains($discussion)) {
+            $this->discussions->removeElement($discussion);
+            // set the owning side to null (unless already changed)
+            if ($discussion->getArticle() === $this) {
+                $discussion->setArticle(null);
             }
         }
 

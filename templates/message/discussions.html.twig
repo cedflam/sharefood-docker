@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} ShareFood - Discussions {% endblock %}
+
+{% block body %}
+    <div class="container-fluid messages">
+        <div class="container " style="padding-top: 150px; padding-bottom: 700px;">
+            <div class="table-responsive">
+                <table class="table text-white">
+
+                    <thead>
+                    <tr>
+
+                        <th  scope="col" class="text-center">Discussion</th>
+                        <th scope="col" class="text-center">Auteur de l'annonce</th>
+                        <th scope="col" class="text-center">Date de création de l'article</th>
+                        <th scope="col" class="text-center">Nombres de messages</th>
+                        <th scope="col" class="text-center">Voir la discussion</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for article in articles %}
+                        {% if app.user.id == article.user.id %}
+                    <tr>
+                        <td class="text-center">{{ article.productName }}</td>
+                        <td class="text-center" > {{ article.user.firstName }}</td>
+                        <td class="text-center">
+                            {{ article.createdAt | format_datetime('short', 'none', locale='fr')  }} à
+                            {{ article.createdAt | format_datetime('none', 'short', locale='fr')  }}
+                        </td>
+                        <td class="text-center"> <span class="badge badge-warning p-2">{{ article.messages | length }}</span> </td>
+                        <td class="text-center">
+                            <a href="{{ path('message_show', {'id': article.id}) }}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

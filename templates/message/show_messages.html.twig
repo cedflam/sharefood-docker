@@ -5,36 +5,62 @@
 {% block body %}
     <div class="container-fluid messages">
         <div class="container " style="padding-top: 150px; padding-bottom: 700px;">
-            {% for message in messages %}
+            {% for message in article.messages %}
                 {% if app.user.id == message.user.id or app.user.id == message.userTarget.id %}
                     <div class="card mb-3 mx-auto d-block" style="max-width: 700px; ">
-                        <div class="row no-gutters" >
+                        <div class="row no-gutters">
 
-                                {% if app.user.id == message.user.id %}
-                                    <div class="card-header bg-primary">
-                                        <h6>Moi :</h6>
-                                    </div>
+                            {% if app.user.id == message.user.id %}
+                                <div class="card-header bg-primary">
+                                    <h6>Moi :</h6>
+                                </div>
 
-                                    <div class="card-body">
-                                        {{ message.message }}
-                                    </div>
-                                    {% elseif app.user.id == message.userTarget.id %}
-                                        <div class="card-header bg-warning">
-                                            <h6>{{ message.user.firstName }}</h6>
-                                        </div>
+                                <div class="card-body">
+                                    {{ message.message }}
+                                </div>
+                            {% elseif app.user.id == message.userTarget.id %}
+                                <div class="card-header bg-warning">
+                                    <h6>{{ message.user.firstName }}</h6>
+                                </div>
 
-                                        <div class="card-body">
-                                            {{ message.message }}
-                                        </div>
-                                {% endif %}
-
+                                <div class="card-body">
+                                    {{ message.message }}
+                                </div>
+                            {% endif %}
 
                         </div>
+
+                    </div>
+                    <div class="col-md-7 mx-auto d-block mb-3">
+                        <a data-target="{{ path('message_product', {'id': article.id}) }}" data-tooltip="voir"
+                           class="tooltipped modal-trigger btn btn-primary "
+                           href="#modalSendMessage">Répondre à {{ message.userTarget.firstName }}</a>
                     </div>
                 {% endif %}
             {% endfor %}
         </div>
     </div>
 
+    {# Modal #}
+    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" id="modalSendMessage">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
 
+
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/app/sendMessageProduct.js') }}"></script>
 {% endblock %}
