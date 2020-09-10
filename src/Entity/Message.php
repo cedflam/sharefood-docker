@@ -38,12 +38,17 @@ class Message
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messagesTarget")
+     */
+    private $userTarget;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
-
-
 
     public function getMessage(): ?string
     {
@@ -100,4 +105,18 @@ class Message
 
         return $this;
     }
+
+    public function getUserTarget(): ?User
+    {
+        return $this->userTarget;
+    }
+
+    public function setUserTarget(?User $userTarget): self
+    {
+        $this->userTarget = $userTarget;
+
+        return $this;
+    }
+
+
 }

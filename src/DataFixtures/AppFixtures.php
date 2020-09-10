@@ -60,11 +60,11 @@ class AppFixtures extends Fixture
 
                 for ($k = 0; $k < 1; $k++){
                     $message = new Message();
-                    $message->setSubject($faker->sentence(3))
-                            ->setMessage($faker->sentence(15))
+                    $message->setMessage($faker->sentence(15))
                             ->setCreatedAt($faker->dateTimeBetween('-10days', 'now'))
                             ->setUser($user)
                             ->setArticle($article)
+
                     ;
                     $manager->persist($message);
                 }

@@ -63,10 +63,16 @@ class User implements UserInterface
      */
     private $messages;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="userTarget")
+     */
+    private $messagesTarget;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->messagesTarget = new ArrayCollection();
     }
 
     public function __toString()
@@ -248,6 +254,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($message->getUser() === $this) {
                 $message->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessagesTarget(): Collection
+    {
+        return $this->messagesTarget;
+    }
+
+    public function addMessagesTarget(Message $messagesTarget): self
+    {
+        if (!$this->messagesTarget->contains($messagesTarget)) {
+            $this->messagesTarget[] = $messagesTarget;
+            $messagesTarget->setUserTarget($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesTarget(Message $messagesTarget): self
+    {
+        if ($this->messagesTarget->contains($messagesTarget)) {
+            $this->messagesTarget->removeElement($messagesTarget);
+            // set the owning side to null (unless already changed)
+            if ($messagesTarget->getUserTarget() === $this) {
+                $messagesTarget->setUserTarget(null);
             }
         }
 

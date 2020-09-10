@@ -5,15 +5,11 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Message;
 use App\Form\MessageType;
-use App\Repository\ArticleRepository;
+use App\Repository\MessageRepository;
 use App\Services\NotifierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Notifier\Notification\Notification;
-use Symfony\Component\Notifier\NotifierInterface;
-use Symfony\Component\Notifier\Recipient\AdminRecipient;
-use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MessageController extends AbstractController
@@ -39,6 +35,7 @@ class MessageController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $message->setArticle($article)
                     ->setUser($this->getUser())
+                    ->setUserTarget($article->getUser())
             ;
             $manager->persist($message);
             $manager->flush();
@@ -53,6 +50,22 @@ class MessageController extends AbstractController
         return $this->render('message/_form_send_message_product.html.twig', [
                 'form' => $form->createView(),
                 'article' => $article
+        ]);
+    }
+
+    /**
+     * Permet de visualiser les messages reçus
+     *
+     * @Route("/messages/show", name="message_show")
+     * @param MessageRepository $messageRepository
+     * @return Response
+     */
+    public function showMessages(MessageRepository $messageRepository)
+    {
+
+        return $this->render('message/show_messages.html.twig', [
+           'messages' => $messageRepository->findAll(),
+
         ]);
     }
 

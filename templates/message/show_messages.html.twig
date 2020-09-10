@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} ShareFood - Messages {% endblock %}
+
+{% block body %}
+    <div class="container-fluid messages">
+        <div class="container " style="padding-top: 150px; padding-bottom: 700px;">
+            {% for message in messages %}
+                {% if app.user.id == message.user.id or app.user.id == message.userTarget.id %}
+                    <div class="card mb-3 mx-auto d-block" style="max-width: 700px; ">
+                        <div class="row no-gutters" >
+
+                                {% if app.user.id == message.user.id %}
+                                    <div class="card-header bg-primary">
+                                        <h6>Moi :</h6>
+                                    </div>
+
+                                    <div class="card-body">
+                                        {{ message.message }}
+                                    </div>
+                                    {% elseif app.user.id == message.userTarget.id %}
+                                        <div class="card-header bg-warning">
+                                            <h6>{{ message.user.firstName }}</h6>
+                                        </div>
+
+                                        <div class="card-body">
+                                            {{ message.message }}
+                                        </div>
+                                {% endif %}
+
+
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}
