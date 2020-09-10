@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Repository\ArticleRepository;
+use App\Services\NotifierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,22 +19,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class MessageController extends AbstractController
 {
     /**
-     * Formulaire de contact et fil de discussion
+     * Permet d'envoyer un message en rapport avec un produit
      *
      * @Route("/messages/product/{id}", name="message_product")
      * @param Article $article
      * @param Request $request
-     * @param ArticleRepository $articleRepository
-     * @param NotifierInterface $notifier
+     * @param NotifierService $notification
      * @return Response
      */
-    public function sendMessageProduct(Article $article, Request $request, ArticleRepository $articleRepository, NotifierInterface $notifier)
+    public function sendMessageProduct(Article $article, Request $request, NotifierService $notification)
     {
-
+        //Création du message et du formulaire
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
 
+        //Logique à la validation du formulaire
         if ($form->isSubmitted() && $form->isValid()){
             $manager = $this->getDoctrine()->getManager();
             $message->setArticle($article)
@@ -41,25 +42,14 @@ class MessageController extends AbstractController
             ;
             $manager->persist($message);
             $manager->flush();
-
-            //Notification par mail
-            $notification = (new Notification(
-                'Une personne vous à envoyé un message depuis ShareFood.fr',
-                ['email']))->content($message->getMessage()
-            );
-
-            // The receiver of the Notification
-            $recipient = new Recipient(
-                $article->getUser()->getEmail()
-            );
-
-            $notifier->send($notification, $recipient);
-
+            //Appel du service de notification
+            $notification->sendNotification($message, $article);
+            //Message flash
             $this->addFlash('success', "Message envoyé à ".$article->getUser()->getFirstName());
-
+            //Redirection
             return $this->redirectToRoute('articles');
         }
-
+        //Vue
         return $this->render('message/_form_send_message_product.html.twig', [
                 'form' => $form->createView(),
                 'article' => $article
