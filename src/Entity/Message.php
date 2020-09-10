@@ -19,11 +19,6 @@ class Message
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $subject;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $message;
@@ -48,17 +43,7 @@ class Message
         return $this->id;
     }
 
-    public function getSubject(): ?string
-    {
-        return $this->subject;
-    }
 
-    public function setSubject(string $subject): self
-    {
-        $this->subject = $subject;
-
-        return $this;
-    }
 
     public function getMessage(): ?string
     {

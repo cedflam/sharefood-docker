@@ -18,6 +18,8 @@ class AppFixtures extends Fixture
      */
     private $encoder;
 
+
+
     /**
      * AppFixtures constructor.
      * @param UserPasswordEncoderInterface $encoder
@@ -30,9 +32,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-        $slugify = new Slugify();
 
-        $condition = [true, false];
         $products = ['pommes', 'conserves', 'carottes', 'petits pois', 'pain de mie', 'jambon', 'fromage', 'lait', 'eau', 'sucre'];
 
 
@@ -58,7 +58,7 @@ class AppFixtures extends Fixture
                         ->setAvailable(true)
                         ->setUser($user);
 
-                for ($k = 0; $k < 10; $k++){
+                for ($k = 0; $k < 1; $k++){
                     $message = new Message();
                     $message->setSubject($faker->sentence(3))
                             ->setMessage($faker->sentence(15))
