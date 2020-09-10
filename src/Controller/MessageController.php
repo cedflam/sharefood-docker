@@ -6,14 +6,14 @@ use App\Entity\Article;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Repository\ArticleRepository;
-use App\Repository\MessageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Notifier\Recipient\AdminRecipient;
+use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Json;
 
 class MessageController extends AbstractController
 {
@@ -24,9 +24,10 @@ class MessageController extends AbstractController
      * @param Article $article
      * @param Request $request
      * @param ArticleRepository $articleRepository
+     * @param NotifierInterface $notifier
      * @return Response
      */
-    public function sendMessageProduct(Article $article, Request $request, ArticleRepository $articleRepository)
+    public function sendMessageProduct(Article $article, Request $request, ArticleRepository $articleRepository, NotifierInterface $notifier)
     {
 
         $message = new Message();
@@ -41,7 +42,20 @@ class MessageController extends AbstractController
             $manager->persist($message);
             $manager->flush();
 
-            $this->addFlash('success', "Message envoyé !");
+            //Notification par mail
+            $notification = (new Notification(
+                'Une personne vous à envoyé un message depuis ShareFood.fr',
+                ['email']))->content($message->getMessage()
+            );
+
+            // The receiver of the Notification
+            $recipient = new Recipient(
+                $article->getUser()->getEmail()
+            );
+
+            $notifier->send($notification, $recipient);
+
+            $this->addFlash('success', "Message envoyé à ".$article->getUser()->getFirstName());
 
             return $this->redirectToRoute('articles');
         }
@@ -50,11 +64,8 @@ class MessageController extends AbstractController
                 'form' => $form->createView(),
                 'article' => $article
         ]);
-
-
-
-
     }
+
 
 
 }
