@@ -44,9 +44,11 @@ class Message
     private $userTarget;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Discussion::class, inversedBy="messages")
+     * @ORM\Column(type="string", length=255)
      */
     private $discussion;
+
+
 
 
 
@@ -123,17 +125,19 @@ class Message
         return $this;
     }
 
-    public function getDiscussion(): ?Discussion
+    public function getDiscussion(): ?string
     {
         return $this->discussion;
     }
 
-    public function setDiscussion(?Discussion $discussion): self
+    public function setDiscussion(string $discussion): self
     {
         $this->discussion = $discussion;
 
         return $this;
     }
+
+
 
 
 }

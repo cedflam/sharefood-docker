@@ -3,11 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-use App\Entity\Discussion;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Repository\ArticleRepository;
-use App\Repository\MessageRepository;
+use App\Services\DiscussionSnifferService;
 use App\Services\NotifierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,11 +22,11 @@ class MessageController extends AbstractController
      * @param Article $article
      * @param Request $request
      * @param NotifierService $notification
+     * @param DiscussionSnifferService $sniffer
      * @return Response
      */
-    public function sendMessageProduct(Article $article, Request $request, NotifierService $notification)
+    public function sendMessageProduct(Article $article, Request $request, NotifierService $notification, DiscussionSnifferService $sniffer)
     {
-
         //Création du message et du formulaire
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
@@ -36,16 +35,12 @@ class MessageController extends AbstractController
         //Logique à la validation du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $manager = $this->getDoctrine()->getManager();
+            //Appel du service chargé de rechercher ou de créer une discussion
+            $sniffer->discussionSniffer($article, $message);
 
-            $message->setArticle($article)
-                ->setUser($this->getUser())
-                ->setUserTarget($article->getUser());
-
-            $manager->persist($message);
-            $manager->flush();
             //Appel du service de notification
-            $notification->sendNotification($message, $article);
+            /*TODO: A décommenter pour activer le service de notifications*/
+            //$notification->sendNotification($message, $article);
             //Message flash
             $this->addFlash('success', "Message envoyé à " . $article->getUser()->getFirstName());
             //Redirection
@@ -82,9 +77,6 @@ class MessageController extends AbstractController
      */
     public function showMessages(Article $article)
     {
-
-
-
         return $this->render('message/show_messages.html.twig', [
             'article' => $article
         ]);

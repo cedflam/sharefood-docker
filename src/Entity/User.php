@@ -68,17 +68,14 @@ class User implements UserInterface
      */
     private $messagesTarget;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Discussion::class, mappedBy="user")
-     */
-    private $discussions;
+
 
     public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->messagesTarget = new ArrayCollection();
-        $this->discussions = new ArrayCollection();
+
     }
 
     public function __toString()
@@ -297,33 +294,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Discussion[]
-     */
-    public function getDiscussions(): Collection
-    {
-        return $this->discussions;
-    }
 
-    public function addDiscussion(Discussion $discussion): self
-    {
-        if (!$this->discussions->contains($discussion)) {
-            $this->discussions[] = $discussion;
-            $discussion->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDiscussion(Discussion $discussion): self
-    {
-        if ($this->discussions->contains($discussion)) {
-            $this->discussions->removeElement($discussion);
-            $discussion->removeUser($this);
-        }
-
-        return $this;
-    }
 
 
 }
