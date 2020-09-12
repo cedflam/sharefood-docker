@@ -10,9 +10,9 @@
                     <div class="card mb-3 mx-auto d-block" style="max-width: 700px; ">
                         <div class="row no-gutters ">
 
-                            {% if app.user.id == message.user.id %}
-                                <div class="card-header bg-warning">
-                                    <h6>{{ message.user.firstName }}</h6>
+                            {% if app.user == message.user  %}
+                                <div class="card-header bg-primary">
+                                    <h6>moi {{ message.user.firstName }}</h6>
                                     <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('short', 'none', locale='fr') }}</small> à
                                     <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('none', 'short', locale='fr') }}</small>
                                 </div>
@@ -20,9 +20,9 @@
                                 <div class="card-body  ">
                                     {{ message.message }}
                                 </div>
-                            {% elseif app.user.id == message.userTarget.id %}
-                                <div class="card-header  bg-primary">
-                                    <h6>Moi :</h6>
+                            {% else %}
+                                <div class="card-header  bg-warning">
+                                    <h6>{{ message.userTarget.firstName }}:</h6>
                                     <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('short', 'none', locale='fr') }}</small> à
                                     <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('none', 'short', locale='fr') }}</small>
                                 </div>

@@ -9,6 +9,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\MessageRepository;
 use App\Services\DiscussionSnifferService;
 use App\Services\NotifierService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +39,6 @@ class MessageController extends AbstractController
 
             //Appel du service chargé de rechercher ou de créer une discussion
             $sniffer->discussionSniffer($article, $message);
-
             //Appel du service de notification
             /*TODO: A décommenter pour activer le service de notifications*/
             //$notification->sendNotification($message, $article);

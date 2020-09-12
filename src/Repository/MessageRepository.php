@@ -25,26 +25,35 @@ class MessageRepository extends ServiceEntityRepository
 
     public function findByDiscussion()
     {
-
-       /* $parameters = [
-            'user' => $user,
-            'userTarget' => $userTarget
-        ];*/
+        /* $parameters = [
+             'user' => $user,
+             'userTarget' => $userTarget
+         ];*/
 
         return $this->createQueryBuilder('m')
 
             //->setParameters($parameters)
             ->groupBy('m.discussion')
             ->getQuery()
-            ->getResult()
-
-
-        ;
-
-
+            ->getResult();
     }
 
 
+    public function newMessageFindDiscussion($user, $userTarget, $article)
+    {
+        $parameters = [
+            'user' => $user,
+            'userTarget' => $userTarget,
+            'article' => $article,
+        ];
+
+        return $this->createQueryBuilder('m')
+            ->where('m.article = :article')
+            ->andWhere('m.user = :user OR m.userTarget = :userTarget')
+            ->setParameters($parameters)
+            ->getQuery()
+            ->getResult();
+    }
 
 
     /*

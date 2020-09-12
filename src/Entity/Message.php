@@ -20,6 +20,7 @@ class Message
 
     /**
      * @ORM\Column(type="text")
+     *
      */
     private $message;
 

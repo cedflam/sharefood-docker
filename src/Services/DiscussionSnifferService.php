@@ -2,24 +2,27 @@
 
 namespace App\Services;
 
+use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DiscussionSnifferService extends AbstractController
 {
-    /**
-     * @var EntityManagerInterface
-     */
+    /**@var EntityManagerInterface*/
     private $manager;
+    /**@var MessageRepository */
+    private $messageRepository;
 
     /**
      * Constructeeur
      * DiscussionSnifferService constructor.
      * @param EntityManagerInterface $manager
+     * @param MessageRepository $messageRepository
      */
-    public function __construct(EntityManagerInterface $manager)
+    public function __construct(EntityManagerInterface $manager, MessageRepository $messageRepository)
     {
         $this->manager = $manager;
+        $this->messageRepository = $messageRepository;
     }
 
     /**
@@ -29,10 +32,10 @@ class DiscussionSnifferService extends AbstractController
      */
     public function setMessageUniqId($article, $message)
     {
-        $message->setArticle($article)
+        $message->setDiscussion(uniqid())
+            ->setArticle($article)
             ->setUser($this->getUser())
-            ->setUserTarget($article->getUser())
-            ->setDiscussion(uniqid());
+            ->setUserTarget($article->getUser());
         $this->manager->persist($message);
     }
 
@@ -44,53 +47,33 @@ class DiscussionSnifferService extends AbstractController
     public function discussionSniffer($article, $message)
     {
 
-        if (count($article->getMessages()) !== 0) {
+        //Je recherche si une discussion existe
+        $discussion = $this->messageRepository->newMessageFindDiscussion($this->getUser(), $article->getUser(), $article);
 
-            foreach ($article->getMessages() as $messageExist) {
-                /**
-                 * SI l'annonce est égale à l'annonce passée en param ET
-                 * Que je suis l'auteur du message ET
-                 * Que je ne suis pas l'auteur de l'annonce ET
-                 * Que l'auteur de l'article est déjà ma cible OU
-                 * SI l'annonce est égale à l'annonce passée en param ET
-                 * Que je suis la cible du message ET
-                 * Que je suis l'auteur de l'annonce
-                 */
-                if (
-                    $messageExist->getArticle() === $article &&
-                    $messageExist->getUser() === $this->getUser() &&
-                    $messageExist->getUser() !== $article->getUser() &&
-                    $article->getUser() === $messageExist->getUserTarget() ||
-                    $messageExist->getArticle() === $article &&
-                    $this->getUser() === $messageExist->getUserTarget() &&
-                    $this->getUser() === $article->getUser()
+        //Condition
+        if ($article->getUser() !== $this->getUser() && $discussion) {
+            //Si je ne suis pas l'auteur de l'article et que la discussion existe
+            //Envoi
+            $message->setUserTarget($article->getUser())
+                ->setUser($this->getUser())
+                ->setArticle($article)
+                ->setDiscussion($discussion[0]->getDiscussion());
+            $this->manager->persist($message);
 
-                ) {
-                    $discussion = $messageExist->getDiscussion();
-                    /*Si je suis l'expediteur */
-                    if ($messageExist->getUserTarget() === $this->getUser()){
-                        $message->setArticle($article)
-                            ->setUser($this->getUser())
-                            ->setUserTarget($article->getUser())
-                            ->setDiscussion($discussion);
-                        $this->manager->persist($message);
-                    }else{
-                        $message->setArticle($article)
-                            ->setUser($messageExist->getUserTarget())
-                            ->setUserTarget($messageExist->getUser())
-                            ->setDiscussion($discussion);
-                        $this->manager->persist($message);
-                    }
-                } else{
-                   $this->setMessageUniqId($article, $message);
-                }
-            }
+        } elseif ($article->getUser() === $this->getUser() && $discussion) {
+            // Sinon Si je suis l'auteur de l'article et que la discussion existe
+            //Réponse
+            $message->setUserTarget($this->getUser())
+                ->setUser($discussion[0]->getUser())
+                ->setArticle($article)
+                ->setDiscussion($discussion[0]->getDiscussion());
+            $this->manager->persist($message);
+
         } else {
-           $this->setMessageUniqId($article, $message);
+            //Je crée une nouvelle discussion
+            $this->setMessageUniqId($article, $message);
         }
+
         $this->manager->flush();
     }
-
-
-
 }
