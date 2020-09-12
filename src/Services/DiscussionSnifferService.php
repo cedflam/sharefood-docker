@@ -48,28 +48,43 @@ class DiscussionSnifferService extends AbstractController
 
             foreach ($article->getMessages() as $messageExist) {
                 /**
-                 * Si l'annonce est égale à l'annonce passée en param ET
+                 * SI l'annonce est égale à l'annonce passée en param ET
                  * Que je suis l'auteur du message ET
                  * Que je ne suis pas l'auteur de l'annonce ET
-                 * Que l'auteur de l'article est déjà ma cible
+                 * Que l'auteur de l'article est déjà ma cible OU
+                 * SI l'annonce est égale à l'annonce passée en param ET
+                 * Que je suis la cible du message ET
+                 * Que je suis l'auteur de l'annonce
                  */
                 if (
                     $messageExist->getArticle() === $article &&
-                    $messageExist->getUser() === $this->getUser() && $messageExist->getUser() !== $article->getUser() &&
-                    $article->getUser() === $messageExist->getUserTarget()
+                    $messageExist->getUser() === $this->getUser() &&
+                    $messageExist->getUser() !== $article->getUser() &&
+                    $article->getUser() === $messageExist->getUserTarget() ||
+                    $messageExist->getArticle() === $article &&
+                    $this->getUser() === $messageExist->getUserTarget() &&
+                    $this->getUser() === $article->getUser()
+
                 ) {
                     $discussion = $messageExist->getDiscussion();
-                    $message->setArticle($article)
-                        ->setUser($this->getUser())
-                        ->setUserTarget($article->getUser())
-                        ->setDiscussion($discussion);
-                    $this->manager->persist($message);
-                }else{
+                    /*Si je suis l'expediteur */
+                    if ($messageExist->getUserTarget() === $this->getUser()){
+                        $message->setArticle($article)
+                            ->setUser($this->getUser())
+                            ->setUserTarget($article->getUser())
+                            ->setDiscussion($discussion);
+                        $this->manager->persist($message);
+                    }else{
+                        $message->setArticle($article)
+                            ->setUser($messageExist->getUserTarget())
+                            ->setUserTarget($messageExist->getUser())
+                            ->setDiscussion($discussion);
+                        $this->manager->persist($message);
+                    }
+                } else{
                    $this->setMessageUniqId($article, $message);
                 }
-
             }
-
         } else {
            $this->setMessageUniqId($article, $message);
         }

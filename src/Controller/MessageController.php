@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Repository\ArticleRepository;
+use App\Repository\MessageRepository;
 use App\Services\DiscussionSnifferService;
 use App\Services\NotifierService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,14 +59,16 @@ class MessageController extends AbstractController
      *
      * @Route("/discussions/show", name="discussion_show")
      * @param ArticleRepository $articleRepository
+     * @param MessageRepository $messageRepository
      * @return Response
      */
-    public function showDiscussions(ArticleRepository $articleRepository)
+    public function showDiscussions(ArticleRepository $articleRepository, MessageRepository $messageRepository)
     {
-        return $this->render('message/discussions.html.twig', [
-            'articles' => $articleRepository->findBy([], ['createdAt' => 'ASC'])
-        ]);
 
+        return $this->render('message/discussions.html.twig', [
+            'articles' => $articleRepository->findAll(),
+            'discussions' => $messageRepository->findByDiscussion()
+        ]);
     }
 
     /**

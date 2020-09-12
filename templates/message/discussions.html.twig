@@ -11,32 +11,47 @@
                     <thead>
                     <tr>
 
-                        <th  scope="col" class="text-center">Discussion</th>
-                        <th scope="col" class="text-center">Auteur de l'annonce</th>
-                        <th scope="col" class="text-center">Date de création de l'article</th>
+                        <th scope="col" class="text-center">Discussion</th>
+                        <th scope="col" class="text-center">Message de</th>
+                        <th scope="col" class="text-center">Message à</th>
+
+                        <th scope="col" class="text-center">Discussion créee le </th>
                         <th scope="col" class="text-center">Nombres de messages</th>
                         <th scope="col" class="text-center">Voir la discussion</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    {% for article in articles %}
-                        {% if app.user.id == article.user.id %}
-                    <tr>
-                        <td class="text-center">{{ article.productName }}</td>
-                        <td class="text-center" > {{ article.user.firstName }}</td>
-                        <td class="text-center">
-                            {{ article.createdAt | format_datetime('short', 'none', locale='fr')  }} à
-                            {{ article.createdAt | format_datetime('none', 'short', locale='fr')  }}
-                        </td>
-                        <td class="text-center"> <span class="badge badge-warning p-2">{{ article.messages | length }}</span> </td>
-                        <td class="text-center">
-                            <a href="{{ path('message_show', {'id': article.id}) }}" class="btn btn-sm btn-primary">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                        </td>
-                    </tr>
-                        {% endif %}
+                    {% for discussion in discussions %}
+
+                            <tr>
+                                <td class="text-center">{{ discussion.article.productName }}</td>
+                                {% if app.user == discussion.user %}
+                                    <td class="text-center"> moi </td>
+                                {% else %}
+                                    <td class="text-center"> {{ discussion.userTarget.firstName }}</td>
+                                {% endif %}
+                                {% if app.user.id == discussion.userTarget.id %}
+                                    <td class="text-center"> moi </td>
+                                {% else %}
+                                    <td class="text-center"> {{ discussion.userTarget.firstName }}</td>
+                                {% endif %}
+
+                                <td class="text-center">
+                                    {{ discussion.createdAt | format_datetime('short', 'none', locale='fr') }} à
+                                    {{ discussion.createdAt | format_datetime('none', 'short', locale='fr') }}
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge badge-warning p-2">{{ discussion.article.messages | length }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ path('message_show', {'id': discussion.article.id}) }}"
+                                       class="btn btn-sm btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
                     {% endfor %}
                     </tbody>
                 </table>
