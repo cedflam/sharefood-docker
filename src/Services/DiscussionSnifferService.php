@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DiscussionSnifferService extends AbstractController
 {
-    /**@var EntityManagerInterface*/
+    /**@var EntityManagerInterface */
     private $manager;
     /**@var MessageRepository */
     private $messageRepository;
@@ -36,6 +36,7 @@ class DiscussionSnifferService extends AbstractController
             ->setArticle($article)
             ->setUser($this->getUser())
             ->setUserTarget($article->getUser());
+
         $this->manager->persist($message);
     }
 
@@ -44,13 +45,12 @@ class DiscussionSnifferService extends AbstractController
      * @param $article
      * @param $message
      */
-    public function discussionSniffer($article, $message)
-    {
+    public function discussionSniffer($article, $message)    {
 
         //Je recherche si une discussion existe
         $discussion = $this->messageRepository->newMessageFindDiscussion($this->getUser(), $article->getUser(), $article);
 
-        //Condition
+
         if ($article->getUser() !== $this->getUser() && $discussion) {
             //Si je ne suis pas l'auteur de l'article et que la discussion existe
             //Envoi
@@ -58,6 +58,7 @@ class DiscussionSnifferService extends AbstractController
                 ->setUser($this->getUser())
                 ->setArticle($article)
                 ->setDiscussion($discussion[0]->getDiscussion());
+
             $this->manager->persist($message);
 
         } elseif ($article->getUser() === $this->getUser() && $discussion) {
@@ -67,13 +68,12 @@ class DiscussionSnifferService extends AbstractController
                 ->setUser($discussion[0]->getUser())
                 ->setArticle($article)
                 ->setDiscussion($discussion[0]->getDiscussion());
-            $this->manager->persist($message);
 
+            $this->manager->persist($message);
         } else {
             //Je crée une nouvelle discussion
             $this->setMessageUniqId($article, $message);
         }
-
         $this->manager->flush();
     }
 }
