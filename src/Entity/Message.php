@@ -49,6 +49,11 @@ class Message
      */
     private $discussion;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $initialSender;
+
 
 
 
@@ -134,6 +139,18 @@ class Message
     public function setDiscussion(string $discussion): self
     {
         $this->discussion = $discussion;
+
+        return $this;
+    }
+
+    public function getInitialSender(): ?bool
+    {
+        return $this->initialSender;
+    }
+
+    public function setInitialSender(bool $sender): self
+    {
+        $this->initialSender = $sender;
 
         return $this;
     }

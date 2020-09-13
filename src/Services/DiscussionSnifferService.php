@@ -35,7 +35,10 @@ class DiscussionSnifferService extends AbstractController
         $message->setDiscussion(uniqid())
             ->setArticle($article)
             ->setUser($this->getUser())
-            ->setUserTarget($article->getUser());
+            ->setUserTarget($article->getUser())
+            ->setInitialSender(true)
+        ;
+
 
         $this->manager->persist($message);
     }
@@ -57,7 +60,9 @@ class DiscussionSnifferService extends AbstractController
             $message->setUserTarget($article->getUser())
                 ->setUser($this->getUser())
                 ->setArticle($article)
-                ->setDiscussion($discussion[0]->getDiscussion());
+                ->setDiscussion($discussion[0]->getDiscussion())
+                ->setInitialSender(true)
+            ;
 
             $this->manager->persist($message);
 
@@ -67,7 +72,9 @@ class DiscussionSnifferService extends AbstractController
             $message->setUserTarget($this->getUser())
                 ->setUser($discussion[0]->getUser())
                 ->setArticle($article)
-                ->setDiscussion($discussion[0]->getDiscussion());
+                ->setDiscussion($discussion[0]->getDiscussion())
+                ->setInitialSender(false)
+            ;
 
             $this->manager->persist($message);
         } else {

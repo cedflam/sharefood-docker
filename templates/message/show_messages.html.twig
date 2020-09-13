@@ -5,43 +5,36 @@
 {% block body %}
     <div class="container-fluid messages">
         <div class="container " style="padding-top: 150px; padding-bottom: 700px;">
-            {% for message in article.messages %}
-                {% if app.user.id == message.user.id or app.user.id == message.userTarget.id %}
+            {% for message in messages %}
+                {% if  message.initialSender == true %}
                     <div class="card mb-3 mx-auto d-block" style="max-width: 700px; ">
                         <div class="row no-gutters ">
+                            <div class="card-header bg-primary">
+                                <h6>moi {{ message.user.firstName }}</h6>
+                                <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('short', 'none', locale='fr') }}</small>
+                                à
+                                <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('none', 'short', locale='fr') }}</small>
+                            </div>
 
-                            {% if app.user == message.user  %}
-                                <div class="card-header bg-primary">
-                                    <h6>moi {{ message.user.firstName }}</h6>
-                                    <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('short', 'none', locale='fr') }}</small> à
-                                    <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('none', 'short', locale='fr') }}</small>
-                                </div>
-
-                                <div class="card-body  ">
-                                    {{ message.message }}
-                                </div>
-                            {% else %}
-                                <div class="card-header  bg-warning">
-                                    <h6>{{ message.userTarget.firstName }}:</h6>
-                                    <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('short', 'none', locale='fr') }}</small> à
-                                    <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('none', 'short', locale='fr') }}</small>
-                                </div>
-
-                                <div class="card-body">
-                                    {{ message.message }}
-                                </div>
-                            {% endif %}
-
-
+                            <div class="card-body  ">
+                                {{ message.message }}
+                            </div>
                         </div>
-
-
                     </div>
-
-
-
-
-
+                {% else %}
+                    <div class="card mb-3 mx-auto d-block" style="max-width: 700px; ">
+                        <div class="row no-gutters ">
+                            <div class="card-header  bg-warning">
+                                <h6>{{ message.userTarget.firstName }}:</h6>
+                                <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('short', 'none', locale='fr') }}</small>
+                                à
+                                <small class=" font-italic font-weight-bold">{{ message.createdAt | format_datetime('none', 'short', locale='fr') }}</small>
+                            </div>
+                            <div class="card-body">
+                                {{ message.message }}
+                            </div>
+                        </div>
+                    </div>
                 {% endif %}
             {% endfor %}
 

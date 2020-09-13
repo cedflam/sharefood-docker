@@ -47,7 +47,7 @@ class MessageController extends AbstractController
             //Redirection
             return $this->redirectToRoute('articles');
         }
-        //Vue
+
         return $this->render('message/_form_send_message_product.html.twig', [
             'form' => $form->createView(),
             'article' => $article
@@ -76,12 +76,29 @@ class MessageController extends AbstractController
      *
      * @Route("/messages/show/{id}", name="message_show")
      * @param Article $article
+     * @param MessageRepository $messageRepository
      * @return Response
      */
-    public function showMessages(Article $article)
+    public function showMessages(Article $article, MessageRepository $messageRepository)
     {
+        $discussions = $messageRepository->findByDiscussion();
+
+        $user = null;
+        $userTarget = null;
+
+
+       foreach ($discussions as $discussion){
+           if ($discussion->getArticle()->getId() === $article->getId()){
+               $user = $discussion->getUser()->getId();
+               $userTarget = $discussion->getUserTarget()->getId();
+           }
+       }
+
+
+
         return $this->render('message/show_messages.html.twig', [
-            'article' => $article
+            'article' => $article,
+            'messages' => $messageRepository->findUserTargetAndUser($user, $userTarget, $article)
         ]);
     }
 
