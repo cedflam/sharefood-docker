@@ -45,6 +45,20 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    /**
+     * Permet à l'utilisateur d'afficher ses produits
+     *
+     * @Route("/articles/myProducts", name="articles_my_products")
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     */
+    public function showMyProducts(ArticleRepository $articleRepository)
+    {
+        return $this->render('article/user-products-list.html.twig', [
+           "articles" => $articleRepository->findAll()
+        ]);
+    }
+
 
 
     /**

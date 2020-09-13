@@ -5,7 +5,7 @@
 {% block body %}
     <!-- Page Content -->
     <div class="container-fluid products">
-        <div class="container " style="padding-top: 120px;">
+        <div class="container " style="padding-top: 120px; padding-bottom: 800px">
             <div class="container ">
                 {% for label, messages in app.flashes %}
                     <div class=" container-fluid col-md-6 mt-3 text-center">
@@ -18,8 +18,7 @@
                         </div>
                     </div>
                 {% endfor %}
-                <div class="col-md-6  mx-auto d-block  mb-3">
-                    <h1 class="text-white text-center mb-3">Produits disponibles</h1>
+                <div class="col-md-8  mx-auto d-block  mb-3">
                     <input type="text" name="searchProduct" class="form-control" id="searchProduct"
                            placeholder="Recherchez un produit...">
                 </div>
