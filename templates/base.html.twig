@@ -37,8 +37,9 @@
                 {% else %}
 
                     <li class="nav-item   ">
-                        <a class=" btn btn-sm btn-primary pl-3 pr-3  " href="{{ path('discussion_show') }}"><i
-                                    class="fas fa-comments"> Messagerie </i></a>
+                        <a class=" btn btn-sm btn-primary pl-3 pr-3  " href="{{ path('discussion_show') }}">
+                            <i class="fas fa-comments"> Messagerie </i>
+                        </a>
                     </li>
             </ul>
                     <div class="btn-group col-2 ">
@@ -47,7 +48,10 @@
                             Menu
                         </button>
                         <div class="dropdown-menu ">
-                            <a class="dropdown-item" href="{{ path('articles') }}"> <i class="fas fa-cart-arrow-down"></i> Produits</a>
+                            <a class="dropdown-item" href="{{ path('articles') }}"> <i class="fas fa-carrot"></i> Produits</a>
+                            <a class="dropdown-item" href="{{ path('articles_my_products') }}">
+                                <i class="fas fa-cart-arrow-down"></i> Mes produits
+                            </a>
                             <a class="dropdown-item" href="{{ path('article_add') }}"> <i class="fas fa-exchange-alt"></i> Donner</a>
                             <a class="dropdown-item" href="#"> <i class="fas fa-address-book"></i> Contact</a>
                             {% if app.user.roles[0] == "ROLE_ADMIN" %}

@@ -15,9 +15,22 @@
     background-attachment: fixed;
     background-repeat: repeat;
 }
+.myProducts{
+    background-image: url('../img/myProducts.jpg');
+    background-attachment: fixed;
+    background-repeat: repeat;
+}
+
+
 
 .product-add{
     background-image: url('../img/bgArticleAdd.jpg');
+    background-attachment: fixed;
+    background-repeat: repeat;
+
+}
+.products-list{
+    background-image: url('../img/donate.jpg');
     background-attachment: fixed;
     background-repeat: repeat;
 
