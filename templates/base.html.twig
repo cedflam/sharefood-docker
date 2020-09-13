@@ -36,30 +36,29 @@
 
                 {% else %}
 
-                    <li class="nav-item mr-5">
-                        <a class="nav-link float-right text-warning" href="{{ path('discussion_show') }}"><i
+                    <li class="nav-item mr-5 ">
+                        <a class="nav-link  text-warning" href="{{ path('discussion_show') }}"><i
                                     class="fas fa-comments"> Discussions </i></a>
                     </li>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+            </ul>
+                    <div class="btn-group ">
+                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                             Menu
                         </button>
                         <div class="dropdown-menu ">
-                            <a class="dropdown-item" href="{{ path('articles') }}">Produits</a>
-                            <a class="dropdown-item" href="{{ path('article_add') }}">Partager</a>
-                            <a class="dropdown-item" href="#">Contact</a>
+                            <a class="dropdown-item" href="{{ path('articles') }}"> <i class="fas fa-cart-arrow-down"></i> Produits</a>
+                            <a class="dropdown-item" href="{{ path('article_add') }}"> <i class="fas fa-exchange-alt"></i> Donner</a>
+                            <a class="dropdown-item" href="#"> <i class="fas fa-address-book"></i> Contact</a>
                             {% if app.user.roles[0] == "ROLE_ADMIN" %}
-                                <a class="dropdown-item" href="{{ path('admin') }}">Admin</a>
+                                <a class="dropdown-item" href="{{ path('admin') }}"> <i class="fas fa-lock-open"></i> Admin</a>
                             {% endif %}
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
+                            <a class="dropdown-item" href="{{ path('app_logout') }}"> <i class="fas fa-sign-out-alt"></i> Déconnexion</a>
                         </div>
                     </div>
-
-
                 {% endif %}
-            </ul>
+
         </div>
     </div>
 </nav>
