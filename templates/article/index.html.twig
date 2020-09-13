@@ -3,119 +3,126 @@
 {% block title %}ShareFood - Produits{% endblock %}
 
 {% block body %}
-<!-- Page Content -->
-<div class="container-fluid products">
-    <div class="container " style="padding-top: 150px;">
-        <div class="container ">
-            {% for label, messages in app.flashes %}
-                <div class=" container-fluid col-md-6 mt-3 text-center">
-                    <div class="alert alert-{{ label }} ">
-                        {% for message in messages %}
-                            <p>
-                                {{ message | raw }}
-                            </p>
-                        {% endfor %}
+    <!-- Page Content -->
+    <div class="container-fluid products">
+        <div class="container " style="padding-top: 120px;">
+            <div class="container ">
+                {% for label, messages in app.flashes %}
+                    <div class=" container-fluid col-md-6 mt-3 text-center">
+                        <div class="alert alert-{{ label }} ">
+                            {% for message in messages %}
+                                <p>
+                                    {{ message | raw }}
+                                </p>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
-            <!-- Page Heading -->
-            <div class="row">
-                {% for article in articles %}
-                    {% if date(article.expiratedAt) > date() %}
-                        <div class="container ">
-                            <div class="card mb-3 mx-auto d-block" style="max-width: 700px;">
-                                <div class="row no-gutters">
-                                    <div class="col-md-4">
-                                        <img src="{{ asset('uploads/images/' ~ article.image) }}" class="card-img p-3"
-                                             alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ article.productName }}</h5>
-                                            <p class="card-text">{{ article.description }}</p>
-                                            <p class="card-text"><small class="text-muted">Date d'expiration
-                                                    : {{ article.expiratedAt | date('d/m/Y') }} <br> Publiée
-                                                    par, {{ article.user.firstName }} de {{ article.location }}</small></p>
+                {% endfor %}
+
+                <h1 class="text-white text-center mb-3">Produits disponibles</h1>
+                <!-- Page Heading -->
+                <div class="row">
+                    {% for article in articles %}
+                        {% if date(article.expiratedAt) > date() %}
+                            <div class="container ">
+                                <div class="card mb-3 mx-auto d-block" style="max-width: 700px;">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            <img src="{{ asset('uploads/images/' ~ article.image) }}"
+                                                 class="card-img p-3"
+                                                 alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ article.productName }}</h5>
+                                                <p class="card-text">{{ article.description }}</p>
+                                                <p class="card-text"><small class="text-muted">Date d'expiration
+                                                        : {{ article.expiratedAt | date('d/m/Y') }} <br> Publiée
+                                                        par, {{ article.user.firstName }} de {{ article.location }}
+                                                    </small>
+                                                </p>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="container pb-2">
+
+                                            {% if app.user is not defined %}
+                                                <p>Inscrivez-vous !</p>
+                                            {% endif %}
+                                            {% if app.user.id != article.user.id %}
+
+                                                <a data-target="{{ path('message_product', {'id': article.id}) }}"
+                                                   data-tooltip="voir"
+                                                   class="tooltipped modal-trigger btn btn-primary right-align"
+                                                   href="#modalSendMessage">Message à {{ article.user.firstName }}</a>
+
+                                            {% endif %}
+                                            {% if app.user.id == article.user.id %}
+                                                <a href="{{ path('article_edit', {'id': article.id}) }}"
+                                                   class="btn btn-primary">Modifier</a>
+                                                <a href="{{ path('article_delete', {'id': article.id}) }}"
+                                                   class="btn btn-primary">Supprimer</a>
+                                            {% endif %}
 
                                         </div>
-                                    </div>
-
-                                    <div class="container pb-2">
-
-                                        {% if app.user is not defined %}
-                                            <p>Inscrivez-vous !</p>
-                                        {% endif %}
-                                        {% if app.user.id != article.user.id %}
-
-                                            <a data-target="{{ path('message_product', {'id': article.id}) }}" data-tooltip="voir"
-                                               class="tooltipped modal-trigger btn btn-primary right-align"
-                                               href="#modalSendMessage">Message à {{ article.user.firstName }}</a>
-
-                                        {% endif %}
-                                        {% if app.user.id == article.user.id %}
-                                            <a href="{{ path('article_edit', {'id': article.id}) }}"
-                                               class="btn btn-primary">Modifier</a>
-                                            <a href="{{ path('article_delete', {'id': article.id}) }}"
-                                               class="btn btn-primary">Supprimer</a>
-                                        {% endif %}
 
                                     </div>
-
                                 </div>
                             </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-                <div class="container" style="padding-bottom: 350px;">
-                    <!-- Pagination -->
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
-                    </ul>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="container" style="padding-bottom: 350px;">
+                        <!-- Pagination -->
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
 
+                    </div>
                 </div>
-            </div>
-            <!-- /.container -->
+                <!-- /.container -->
 
-            {# Modal #}
-            <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" id="modalSendMessage">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
+                {# Modal #}
+                <div class="modal text-white fade bd-example-modal-sm" tabindex="-1" role="dialog"
+                     id="modalSendMessage">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content products">
+                            <div class="modal-header">
 
 
-                        </div>
-                        <div class="modal-body">
-                        </div>
-                        <div class="modal-footer">
+                            </div>
+                            <div class="modal-body">
+                            </div>
+                            <div class="modal-footer">
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
+        </div>
     </div>
-    {% endblock %}
+{% endblock %}
 
     {% block javascripts %}
         <script src="{{ asset('js/app/sendMessageProduct.js') }}"></script>
