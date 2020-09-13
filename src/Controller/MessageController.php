@@ -40,8 +40,7 @@ class MessageController extends AbstractController
             //Appel du service chargé de rechercher ou de créer une discussion
             $sniffer->discussionSniffer($article, $message);
             //Appel du service de notification
-            /*TODO: A décommenter pour activer le service de notifications*/
-            //$notification->sendNotification($message, $article);
+            $notification->sendNotification($message, $article);
             //Message flash
             $this->addFlash('success', "Message envoyé à " . $article->getUser()->getFirstName());
             //Redirection
@@ -93,8 +92,6 @@ class MessageController extends AbstractController
                $userTarget = $discussion->getUserTarget()->getId();
            }
        }
-
-
 
         return $this->render('message/show_messages.html.twig', [
             'article' => $article,
