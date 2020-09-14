@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -181,5 +182,21 @@ class ArticleController extends AbstractController
         $this->manager->flush();
 
         return $this->redirectToRoute('articles');
+    }
+
+    /**
+     * Permet de rendre un produit indisponible
+     *
+     * @Route("/article/{id}/notAvailable" , name="article_notAvailable", methods={"GET"})
+     * @param Article $article
+     * @return JsonResponse
+     */
+    public function notAvailableProduct(Article $article)
+    {
+        $article->setAvailable(false);
+        $this->manager->persist($article);
+        $this->manager->flush();
+
+        return new JsonResponse([], Response::HTTP_OK);
     }
 }
