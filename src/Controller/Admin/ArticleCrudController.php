@@ -32,7 +32,7 @@ class ArticleCrudController extends AbstractCrudController
             TextEditorField::new('description', 'Description'),
             AssociationField::new('user', 'Utilisateur'),
             DateTimeField::new('expiratedAt', 'Date/Péremption'),
-            BooleanField::new('donation', 'Don de produit ?')
+
 
 
 

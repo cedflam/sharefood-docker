@@ -25,7 +25,7 @@
                 <!-- Page Heading -->
                 <div class="row">
                     {% for article in articles %}
-                        {% if date(article.expiratedAt) > date() and article.user == app.user %}
+                        {% if date(article.expiratedAt) > date() and article.user == app.user and article.available == true %}
                             <div class="container productsList">
                                 <div class="card mb-3 mx-auto d-block" style="max-width: 700px;">
                                     <div class="row no-gutters">
@@ -48,23 +48,12 @@
                                         </div>
 
                                         <div class="container pb-2">
-
-                                            {% if app.user is not defined %}
-                                                <p>Inscrivez-vous !</p>
-                                            {% endif %}
-                                            {% if app.user.id != article.user.id %}
-
-                                                <a data-target="{{ path('message_product', {'id': article.id}) }}"
-                                                   data-tooltip="voir"
-                                                   class="tooltipped modal-trigger btn btn-primary right-align"
-                                                   href="#modalSendMessage">Message à {{ article.user.firstName }}</a>
-
-                                            {% endif %}
                                             {% if app.user.id == article.user.id %}
                                                 <a href="{{ path('article_edit', {'id': article.id}) }}"
                                                    class="btn btn-primary">Modifier</a>
+                                                <a href="" class="btn btn-success">Valider la livraison</a>
                                                 <a href="{{ path('article_delete', {'id': article.id}) }}"
-                                                   class="btn btn-primary">Supprimer</a>
+                                                   class="btn btn-danger">Supprimer</a>
                                             {% endif %}
 
                                         </div>
@@ -97,6 +86,7 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
 
     {% block javascripts %}

@@ -78,8 +78,10 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /*Je lie l'user au produit*/
-            $article->setUser($this->getUser());
+            /*Je lie l'user au produit et je le rend disponible*/
+            $article->setUser($this->getUser())
+                    ->setAvailable(true)
+            ;
 
             /*****Upload******/
             $imageFile = $form->get('image')->getData();
