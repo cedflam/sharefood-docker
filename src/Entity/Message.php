@@ -55,9 +55,6 @@ class Message
     private $initialSender;
 
 
-
-
-
     public function getId(): ?int
     {
         return $this->id;

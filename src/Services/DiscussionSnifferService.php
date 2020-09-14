@@ -10,6 +10,7 @@ class DiscussionSnifferService extends AbstractController
 {
     /**@var EntityManagerInterface */
     private $manager;
+
     /**@var MessageRepository */
     private $messageRepository;
 
@@ -26,7 +27,7 @@ class DiscussionSnifferService extends AbstractController
     }
 
     /**
-     * Permet paramétrer un nouveau message et de le persister
+     * Permet paramétrer un nouveau message dans  une nouvelle discussion et de le persister
      * @param $article
      * @param $message
      */
@@ -38,8 +39,6 @@ class DiscussionSnifferService extends AbstractController
             ->setUserTarget($article->getUser())
             ->setInitialSender(true)
         ;
-
-
         $this->manager->persist($message);
     }
 
@@ -52,7 +51,6 @@ class DiscussionSnifferService extends AbstractController
 
         //Je recherche si une discussion existe
         $discussion = $this->messageRepository->newMessageFindDiscussion($this->getUser(), $article->getUser(), $article);
-
 
         if ($article->getUser() !== $this->getUser() && $discussion) {
             //Si je ne suis pas l'auteur de l'article et que la discussion existe
