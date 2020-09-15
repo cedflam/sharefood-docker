@@ -35,6 +35,12 @@
     background-repeat: repeat;
 
 }
+.register{
+    background-image: url('../img/register.jpg');
+    background-attachment: fixed;
+    background-repeat: repeat;
+
+}
 
 .filter-dark{
     background-color: black;

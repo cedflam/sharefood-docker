@@ -20,6 +20,7 @@ class MessageController extends AbstractController
      * Permet d'envoyer un message en rapport avec un produit
      *
      * @Route("/messages/product/{id}", name="message_product")
+     * 
      * @param Article $article
      * @param Request $request
      * @param NotifierService $notification
@@ -56,6 +57,7 @@ class MessageController extends AbstractController
      * Permet de visualiser les discussions d'un User connecté
      *
      * @Route("/discussions/show", name="discussion_show")
+     *
      * @param ArticleRepository $articleRepository
      * @param MessageRepository $messageRepository
      * @return Response
@@ -73,6 +75,7 @@ class MessageController extends AbstractController
      * Permet de visualiser les messages reçus
      *
      * @Route("/messages/show/{id}", name="message_show")
+     *
      * @param Article $article
      * @param MessageRepository $messageRepository
      * @return Response
@@ -83,7 +86,6 @@ class MessageController extends AbstractController
 
         $user = null;
         $userTarget = null;
-
 
        foreach ($discussions as $discussion){
            if ($discussion->getArticle()->getId() === $article->getId()){
