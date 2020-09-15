@@ -37,12 +37,13 @@ class MessageController extends AbstractController
         //Logique à la validation du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //Appel du service chargé de rechercher ou de créer une discussion
+
+            //Appel du service chargé de rechercher et de créer une discussion
             $sniffer->discussionSniffer($article, $message);
             //Appel du service de notification
-            $notification->sendNotification($message, $article);
+            $notification->sendNotification($message, $article, $this->getUser());
             //Message flash
-            $this->addFlash('success', "Message envoyé à " . $article->getUser()->getFirstName());
+            $this->addFlash('success', "Message envoyé !");
             //Redirection
             return $this->redirectToRoute('articles');
         }

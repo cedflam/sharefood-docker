@@ -25,20 +25,35 @@ class NotifierService
     /**
      * @param $message
      * @param $article
+     * @param $user
      */
-    public function sendNotification($message, $article)
+    public function sendNotification($message, $article, $user)
     {
-        //Notification par mail
-        $notification = (new Notification(
-            'Une personne vous à envoyé un message depuis ShareFood.fr',
+        //Je crée une nouvelle notification
+        $notification = $this->createNotification($message);
+        //Si l'utilisateur connecté est l'auteur de l'article
+        if ($article->getMessages()[0]->getUserTarget() === $user){
+            // The receiver of the Notification
+            $recipient = $article->getMessages()[0]->getUser()->getEmail();
+        }else{
+            $recipient = $article->getUSer()->getEmail();
+        }
+
+
+
+        //envoi
+        $this->notifier->send($notification, new Recipient($recipient));
+    }
+
+    /**
+     * Crée une nouevlle notification
+     * @param $message
+     * @return Notification
+     */
+    public function createNotification($message)
+    {
+        return (new Notification('Une personne vous à envoyé un message depuis ShareFood.fr',
             ['email']))->content($message->getMessage()
         );
-
-        // The receiver of the Notification
-        $recipient = new Recipient(
-            $article->getUser()->getEmail()
-        );
-
-        $this->notifier->send($notification, $recipient);
     }
 }
