@@ -3,10 +3,17 @@
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
-    <h1>Reset your password</h1>
+    <div class="container-fluid messages" style="padding-top: 150px; padding-bottom: 600px">
+        <div class="container  filter-dark p-5">
+            <div class="col-md-7 mx-auto d-block text-white ">
+                <h1>Réinitialiser votre mot de passe</h1>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+                {{ form_start(resetForm) }}
+                {{ form_row(resetForm.plainPassword) }}
+                <button class="btn btn-primary">Réinitialiser</button>
+                {{ form_end(resetForm) }}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
