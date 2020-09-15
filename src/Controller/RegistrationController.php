@@ -59,7 +59,7 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(new Address('cedflam@gmail.com', 'ShareFood.fr'))
                     ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Merci de confirmer votre email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
@@ -97,6 +97,6 @@ class RegistrationController extends AbstractController
 
         $this->addFlash('success', 'Votre Adresse email a été vérifiée');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('home');
     }
 }

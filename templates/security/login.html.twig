@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}ShareFood - Connexion{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
@@ -41,7 +41,7 @@
                                             type="submit">Connexion
                                     </button>
                                     <div class="text-center">
-                                        <a class="small" href="#">Mot de passe oublié ?</a></div>
+                                        <a class="small" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a></div>
                                 </form>
                             </div>
                         </div>
