@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ContactController!{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid messages" style="padding-bottom: 400px; padding-top: 200px">
+        <div class="container col-md-6 filter-dark text-white p-5">
+            <h4 class="mb-5">ShareFood.fr - Contactez-nous.</h4>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input type="submit" class="btn btn-primary" value="Envoyer">
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

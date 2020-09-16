@@ -55,7 +55,7 @@
                             </a>
                             <a class="dropdown-item" href="{{ path('article_add') }}"> <i class="fas fa-exchange-alt"></i> Donner</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"> <i class="fas fa-address-book"></i> Contact</a>
+                            <a class="dropdown-item" href="{{ path('contact') }}"> <i class="fas fa-address-book"></i> Contact</a>
                             {% if app.user.roles[0] == "ROLE_ADMIN" %}
                                 <a class="dropdown-item" href="{{ path('admin') }}"> <i class="fas fa-lock-open"></i> Admin</a>
                             {% endif %}
