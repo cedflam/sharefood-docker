@@ -25,5 +25,4 @@ class HomeController extends AbstractController
  * TODO : Faire un formulaire de contact
  * TODO: Paramétrer l'espace d'administration
  * TODO: Redimenssionner une image automatiquement à l'upload
- * TODO : Mettre une alerte sur la suppression / livraison de produits
  */

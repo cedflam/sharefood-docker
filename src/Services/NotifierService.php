@@ -38,9 +38,6 @@ class NotifierService
         }else{
             $recipient = $article->getUSer()->getEmail();
         }
-
-
-
         //envoi
         $this->notifier->send($notification, new Recipient($recipient));
     }

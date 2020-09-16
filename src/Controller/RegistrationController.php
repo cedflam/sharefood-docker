@@ -26,6 +26,8 @@ class RegistrationController extends AbstractController
     }
 
     /**
+     * Permet de s'inscrire
+     *
      * @Route("/register", name="app_register")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
@@ -78,6 +80,8 @@ class RegistrationController extends AbstractController
     }
 
     /**
+     * Permet de vérifier l'email
+     *
      * @Route("/verify/email", name="app_verify_email")
      * @param Request $request
      * @return Response

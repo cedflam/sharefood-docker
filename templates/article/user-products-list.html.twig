@@ -18,6 +18,8 @@
                         </div>
                     </div>
                 {% endfor %}
+
+                {# Search bar #}
                 <div class="col-md-8  mx-auto d-block  mb-3">
                     <input type="text" name="searchProduct" class="form-control" id="searchProduct"
                            placeholder="Recherchez un produit...">
@@ -51,9 +53,20 @@
                                             {% if app.user.id == article.user.id %}
                                                 <a href="{{ path('article_edit', {'id': article.id}) }}"
                                                    class="btn btn-primary">Modifier</a>
-                                                <button data-id="{{ article.id }}" data-target="{{ path('article_notAvailable', {'id':article.id}) }}" class="btn btn-success notAvailable">Valider la livraison</button>
+                                                <button
+                                                        data-id="{{ article.id }}"
+                                                        data-target="{{ path('article_notAvailable', {'id':article.id}) }}"
+                                                        class="btn btn-success notAvailable"
+
+                                                >
+
+                                                    Valider la livraison
+                                                </button>
                                                 <a href="{{ path('article_delete', {'id': article.id}) }}"
-                                                   class="btn btn-danger">Supprimer</a>
+                                                   class="btn btn-danger"
+                                                    onclick="return confirm('Etes-vous sûr de vouloir supprimer ce produit ?')"
+                                                >Supprimer
+                                                </a>
                                             {% endif %}
 
                                         </div>
