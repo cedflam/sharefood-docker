@@ -19,7 +19,7 @@ class ImageUploader
 
     public function upload(UploadedFile $file)
     {
-        //Suppression de l'ancienne image
+
         $fileName = uniqid().'.'.$file->guessExtension();
 
         try {

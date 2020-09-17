@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Image;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\MessageRepository;
@@ -85,7 +86,9 @@ class ArticleController extends AbstractController
             ;
 
             /*****Upload******/
+
             $imageFile = $form->get('image')->getData();
+
 
             if ($imageFile){
                 $imageFileName = $imageUploader->upload($imageFile);

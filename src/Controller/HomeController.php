@@ -32,5 +32,4 @@ class HomeController extends AbstractController
 /**
  *
  * TODO: Paramétrer l'espace d'administration
- * TODO: Redimenssionner une image automatiquement à l'upload
  */

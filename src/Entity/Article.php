@@ -51,10 +51,12 @@ class Article
 
 
     /**
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      *
      */
     private $image;
+
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
