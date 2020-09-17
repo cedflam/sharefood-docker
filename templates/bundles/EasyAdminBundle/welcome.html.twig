@@ -1,10 +1,22 @@
 {# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block page_title 'Welcome to EasyAdmin 3' %}
+{% block page_title "Espace d'administration ShareFood.fr" %}
 
 {% block page_content %}
 
- {#TODO: Personaliser la page d'accueil easyadmin#}
+
+    <div class="container p-5">
+        <div class="jumbotron">
+            <h1 class="display-4">Bienvenue sur l'espace d'administration</h1>
+            <p class="lead">Depuis cet endroit vous gérez l'ensemble des produits du site ainsi que les utilisateurs</p>
+            <hr class="my-4">
+            <p>Une fois votre travail terminé, vous pouvez retourner à l'accueil du site </p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="{{ path('home') }}" role="button">Retour à l'accueil</a>
+            </p>
+        </div>
+    </div>
+
 
 {% endblock %}

@@ -5,6 +5,18 @@
 {% block body %}
 
     <div class="container-fluid messages" style="padding-bottom: 400px; padding-top: 200px">
+        {% for label, messages in app.flashes %}
+            <div class=" container-fluid col-md-6 mt-3 text-center" >
+                <div class="alert alert-{{ label }} ">
+                    {% for message in messages %}
+                        <p>
+                            {{ message | raw }} <br>
+                            <a class="btn btn-sm btn-secondary mt-3" href="{{ path('home') }}">Retour à l'accueil</a>
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
         <div class="container col-md-6 filter-dark text-white p-5">
             <h4 class="mb-5">ShareFood.fr - Contactez-nous.</h4>
             {{ form_start(form) }}

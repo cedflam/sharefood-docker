@@ -55,7 +55,7 @@
                                             {% if app.user is not defined %}
                                                 <p>Inscrivez-vous !</p>
                                             {% endif %}
-                                            {% if app.user.id != article.user.id %}
+                                            {% if  app.user.id != article.user.id %}
 
                                                 <a data-target="{{ path('message_product', {'id': article.id}) }}"
                                                    data-tooltip="voir"

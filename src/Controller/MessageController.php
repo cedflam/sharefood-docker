@@ -9,6 +9,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\MessageRepository;
 use App\Services\DiscussionSnifferService;
 use App\Services\NotifierService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,8 @@ class MessageController extends AbstractController
      * Permet d'envoyer un message en rapport avec un produit
      *
      * @Route("/messages/product/{id}", name="message_product")
+     *
+     * @Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")
      * 
      * @param Article $article
      * @param Request $request
@@ -59,13 +62,14 @@ class MessageController extends AbstractController
      *
      * @Route("/discussions/show", name="discussion_show")
      *
+     * @Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")
+     *
      * @param ArticleRepository $articleRepository
      * @param MessageRepository $messageRepository
      * @return Response
      */
     public function showDiscussions(ArticleRepository $articleRepository, MessageRepository $messageRepository)
     {
-
         return $this->render('message/discussions.html.twig', [
             'articles' => $articleRepository->findAll(),
             'discussions' => $messageRepository->findByDiscussion()
@@ -76,6 +80,8 @@ class MessageController extends AbstractController
      * Permet de visualiser les messages reçus
      *
      * @Route("/messages/show/{id}", name="message_show")
+     *
+     * @Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")
      *
      * @param Article $article
      * @param MessageRepository $messageRepository

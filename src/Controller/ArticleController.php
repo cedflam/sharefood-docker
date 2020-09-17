@@ -3,13 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-use App\Entity\Image;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
-use App\Repository\MessageRepository;
 use App\Services\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -37,6 +36,9 @@ class ArticleController extends AbstractController
      * Affiche la liste des produits
      *
      * @Route("/articles", name="articles")
+     *
+     * @Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")
+     *
      * @param ArticleRepository $articleRepository
      * @return Response
      */
@@ -51,6 +53,9 @@ class ArticleController extends AbstractController
      * Permet à l'utilisateur d'afficher ses produits
      *
      * @Route("/articles/myProducts", name="articles_my_products")
+     *
+     * @Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")
+     *
      * @param ArticleRepository $articleRepository
      * @return Response
      */
@@ -67,6 +72,9 @@ class ArticleController extends AbstractController
      * Permet d'ajouter un nouveau produit
      *
      * @Route("/articles/add", name="article_add")
+     *
+     * @Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')")
+     *
      * @param Request $request
      * @param ImageUploader $imageUploader
      * @return RedirectResponse|Response
@@ -117,6 +125,9 @@ class ArticleController extends AbstractController
      * Permet de modifier produit
      *
      * @Route("/articles/{id}/edit", name="article_edit")
+     *
+     * @Security("is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') and user == article.getUser()")
+     *
      * @param Article $article
      * @param Request $request
      * @param ImageUploader $imageUploader
@@ -166,6 +177,15 @@ class ArticleController extends AbstractController
      * Permet de supprimer produit
      *
      * @Route("/articles/{id}/delete", name="article_delete")
+     *
+     *  @Security(
+     *     "
+     *      is_granted('ROLE_USER') or
+     *      is_granted('ROLE_ADMIN') and
+     *      user == article.getUser()
+     *      ",
+     * )
+     *
      * @param Article $article
      * @return RedirectResponse
      */
@@ -191,6 +211,15 @@ class ArticleController extends AbstractController
      * Permet de rendre un produit indisponible
      *
      * @Route("/article/{id}/notAvailable" , name="article_notAvailable", methods={"GET"})
+     *
+     *  @Security(
+     *     "
+     *      is_granted('ROLE_USER') or
+     *      is_granted('ROLE_ADMIN') and
+     *      user == article.getUser()
+     *      ",
+     * )
+     *
      * @param Article $article
      * @return JsonResponse
      */

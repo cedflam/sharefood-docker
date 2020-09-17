@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
@@ -19,7 +17,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Article
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -29,11 +26,23 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min="2",
+     *     max="30",
+     *     minMessage="Le nom du produit doit faire au moins 2 caractères",
+     *     maxMessage="Le nom du produit doit faire moins de 30 caractères"
+     * )
      */
     private $productName;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(
+     *     min="10",
+     *     max="150",
+     *     minMessage="La description doit faire au moins 10 caractères",
+     *     maxMessage="Ladescription doit faire moins de 150 caractères"
+     * )
      */
     private $description;
 
@@ -49,11 +58,8 @@ class Article
      */
     private $createdAt;
 
-
     /**
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
      */
     private $image;
 
@@ -71,6 +77,12 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min="2",
+     *     max="30",
+     *     minMessage="La ville doit comporter au moins 2 caractères",
+     *     maxMessage="La ville ne peut faire plus de 30 caractères"
+     * )
      */
     private $location;
 
@@ -185,8 +197,6 @@ class Article
 
         return $this;
     }
-
-
 
     public function getImage(): ?string
     {

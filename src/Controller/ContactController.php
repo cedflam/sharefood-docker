@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\ContactFormType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,9 @@ class ContactController extends AbstractController
 {
     /**
      * @Route("/contact", name="contact")
+     *
+     * @IsGranted("ROLE_USER")
+     *
      * @param Request $request
      * @param MailerInterface $mailer
      * @return Response
@@ -40,7 +44,7 @@ class ContactController extends AbstractController
 
             $this->addFlash('success', "Le message a bien été envoyé à l'équipe de ShareFood.fr");
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('contact');
 
         }
 
