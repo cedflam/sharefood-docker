@@ -7,7 +7,6 @@ This application allows the sharing of food between people in order to limit the
 * **Framework** : Symfony 5.1
 * **Bundles** : fzaninotto/faker,  Easyadmin 3, Symfony Mailer, Symfony Notifier.
 * **Environnement**: Docker with PHP 7.4-FPM, Nginx, MySql 8 
-* **Tests**: Behat, PHPUnit
 
 ## Installation
 * 1 - clone project -> git clone https://github.com/cedflam/sharefood-docker.git 
